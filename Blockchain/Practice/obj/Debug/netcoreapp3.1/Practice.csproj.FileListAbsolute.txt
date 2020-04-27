@@ -1,0 +1,13 @@
+/home/vishal/Documents/Blockchain/Practice/bin/Debug/netcoreapp3.1/Practice
+/home/vishal/Documents/Blockchain/Practice/bin/Debug/netcoreapp3.1/Practice.deps.json
+/home/vishal/Documents/Blockchain/Practice/bin/Debug/netcoreapp3.1/Practice.runtimeconfig.json
+/home/vishal/Documents/Blockchain/Practice/bin/Debug/netcoreapp3.1/Practice.runtimeconfig.dev.json
+/home/vishal/Documents/Blockchain/Practice/bin/Debug/netcoreapp3.1/Practice.dll
+/home/vishal/Documents/Blockchain/Practice/bin/Debug/netcoreapp3.1/Practice.pdb
+/home/vishal/Documents/Blockchain/Practice/obj/Debug/netcoreapp3.1/Practice.csprojAssemblyReference.cache
+/home/vishal/Documents/Blockchain/Practice/obj/Debug/netcoreapp3.1/Practice.csproj.CoreCompileInputs.cache
+/home/vishal/Documents/Blockchain/Practice/obj/Debug/netcoreapp3.1/Practice.AssemblyInfoInputs.cache
+/home/vishal/Documents/Blockchain/Practice/obj/Debug/netcoreapp3.1/Practice.AssemblyInfo.cs
+/home/vishal/Documents/Blockchain/Practice/obj/Debug/netcoreapp3.1/Practice.dll
+/home/vishal/Documents/Blockchain/Practice/obj/Debug/netcoreapp3.1/Practice.pdb
+/home/vishal/Documents/Blockchain/Practice/obj/Debug/netcoreapp3.1/Practice.genruntimeconfig.cache
