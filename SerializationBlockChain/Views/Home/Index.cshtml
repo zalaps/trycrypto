@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model SerializationBlockChain.Models.SNView;
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <form asp-action="Index" asp-controller="Home" method="post">
+            <input type="text" name="SN" value="@Model.SN" />
+            <button type="submit" value="Submit">Submit</button>
+        </form>
+        <a class="nav-link text-dark" asp-route-id="123456" asp-controller="Home" asp-action="Status">123456</a>
+    </div>

@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Status";
+}
+
+@model SerializationBlockChain.Models.SNView;
+
+<div class="text-center">
+    <h1 class="display-4">@Model.SN</h1>
+    <h3 class="display-4">Add Status</h3>
+    <form asp-action="Status" asp-controller="Home" method="post">
+        <input type="text" name="Status" value="@Model.Status" />
+        <button type="submit" value="Submit">Submit</button>
+    </form>
+</div>
