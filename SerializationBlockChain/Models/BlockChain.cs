@@ -1,38 +1,32 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SerializationBlockChain.Models
 {
-    public class SerialNumber
+    public class BlockChain
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string _id { get; set; }
-
         public string Serialnumber { get; set; } = "";
-        public List<Block> BlockChain { get; set; }
+        public List<Block> Chain { get; set; }
 
-        public SerialNumber(string SN)
+        public BlockChain(string SN)
         {
             Serialnumber = SN;
-            BlockChain = new List<Block> { CreateGenesisBlock(SN) };
+            Chain = new List<Block> { CreateGenesisBlock(SN) };
         }
 
         public void CreateSerialNumber(string SN)
         {
-            BlockChain = new List<Block> { CreateGenesisBlock(SN) };
+            Chain = new List<Block> { CreateGenesisBlock(SN) };
         }
 
         public bool IsValidChain()
         {
-            for (int i = 1; i < BlockChain.Count; i++)
+            for (int i = 1; i < Chain.Count; i++)
             {
-                Block previousBlock = BlockChain[i - 1];
-                Block currentBlock = BlockChain[i];
+                Block previousBlock = Chain[i - 1];
+                Block currentBlock = Chain[i];
                 if (currentBlock.Hash != currentBlock.CreateHash())
                     return false;
                 if (currentBlock.PreviousHash != previousBlock.Hash)
@@ -45,6 +39,5 @@ namespace SerializationBlockChain.Models
         {
             return new Block(SN, "Download", "0");
         }
-
     }
 }

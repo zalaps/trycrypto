@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SerializationBlockChain.Context;
+using SerializationBlockChain.DBLayer.Repository;
+using SerializationBlockChain.DBLayer.Services;
 
 namespace SerializationBlockChain
 {
@@ -23,6 +26,9 @@ namespace SerializationBlockChain
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            MapDBLayer(services);
+            var section = Configuration.GetSection("DBConnection");
+            services.Configure<DBConnection>(section);
             services.AddControllersWithViews();
         }
 
@@ -52,6 +58,11 @@ namespace SerializationBlockChain
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        void MapDBLayer(IServiceCollection services)
+        {
+            services.AddTransient<ISerialnumberRepository, SerialnumberServices>();
         }
     }
 }

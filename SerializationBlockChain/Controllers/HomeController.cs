@@ -5,17 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SerializationBlockChain.DBLayer.Repository;
 using SerializationBlockChain.Models;
 
 namespace SerializationBlockChain.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        ISerialnumberRepository _serialnumberRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ISerialnumberRepository serialnumberRepository)
         {
-            _logger = logger;
+            _serialnumberRepository = serialnumberRepository;
         }
 
         public IActionResult Index()
@@ -26,7 +27,8 @@ namespace SerializationBlockChain.Controllers
         [HttpPost]
         public IActionResult Index(SNView snView)
         {
-            return View();
+            _serialnumberRepository.CreateSerialNumber(new SerialNumber(snView.SN));
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
