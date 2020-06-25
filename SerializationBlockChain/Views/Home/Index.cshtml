@@ -5,10 +5,19 @@
 @model SerializationBlockChain.Models.SNView;
 
     <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
+        <h4>Add New Serial Number</h4>
         <form asp-action="Index" asp-controller="Home" method="post">
             <input type="text" name="SN" value="@Model.SN" />
-            <button type="submit" value="Submit">Submit</button>
+            <button type="submit" value="Submit">Add Number</button>
         </form>
-        <a class="nav-link text-dark" asp-route-id="123456" asp-controller="Home" asp-action="Status">123456</a>
+        @if (Model.lstSN != null)
+        {
+            <br />
+            <br />
+            <h4>Serial Numbers</h4>
+            @foreach (var SN in Model.lstSN)
+            {
+                <a class="nav-link" asp-route-id="@SN" asp-controller="Home" asp-action="Status" title="Add Status">@SN</a>
+            }
+        }
     </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using SerializationBlockChain.Context;
 using SerializationBlockChain.DBLayer.Repository;
@@ -12,23 +13,23 @@ namespace SerializationBlockChain.DBLayer.Services
 {
     public class SerialnumberServices : ISerialnumberRepository
     {
-        private readonly DBContext<SerialNumber> contextPartner;
+        private readonly DBContext<SerialNumber> contextSN;
 
 
         //public PartnerService() { }
 
         public SerialnumberServices(IOptions<DBConnection> options)
         {
-            contextPartner = new DBContext<SerialNumber>(options);
+            contextSN = new DBContext<SerialNumber>(options);
         }
 
         public void CreateSerialNumber(SerialNumber SN)
         {
             try
             {
-                if (ValidateUserDetails(SN).Result == null)
+                if (ValidateSN(SN).Result == null)
                 {
-                    contextPartner.Entity.InsertOne(SN);
+                    contextSN.Entity.InsertOne(SN);
                 }
             }
             catch (Exception ex)
@@ -37,11 +38,11 @@ namespace SerializationBlockChain.DBLayer.Services
             }
         }
 
-        public async Task<SerialNumber> ValidateUserDetails(SerialNumber SN)
+        public async Task<SerialNumber> ValidateSN(SerialNumber SN)
         {
             try
             {
-                var result = await contextPartner.Entity.FindAsync(u => (u.Serialnumber == SN.Serialnumber)).Result.FirstOrDefaultAsync();
+                var result = await contextSN.Entity.FindAsync(u => (u.Serialnumber == SN.Serialnumber)).Result.FirstOrDefaultAsync();
                 return result;
             }
             catch (Exception ex)
@@ -50,11 +51,25 @@ namespace SerializationBlockChain.DBLayer.Services
             }
         }
 
-        //public List<SerialNumber> GetSerialNumbers()
-        //{
-        //    return contextPartner.Entity.Find(s=>s.);
-        //}
+        public List<SerialNumber> GetSerialNumbers()
+        {
+            return contextSN.Entity.Find(new BsonDocument()).ToList();
+        }
+        public SerialNumber GetSerialNumber(string SN)
+        {
+            var filter = Builders<SerialNumber>.Filter.Eq(u => u.Serialnumber, SN);
+            return contextSN.Entity.Find(filter).FirstOrDefault();
+        }
 
+        public void AddBlock(string SN, Block block)
+        {
+            try
+            {
+                var update = Builders<SerialNumber>.Update.Push(s=>s.BlockChain,block);
+                contextSN.Entity.UpdateOne(n => n.Serialnumber == SN, update);
+            }
+            catch { }
+        }
         //public UpdateResult UpdateUser(string id, User useritem)
         //{
         //    try

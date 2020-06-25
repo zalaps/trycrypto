@@ -1,6 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Verify";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+@model SerializationBlockChain.Models.SNView;
+
+<div class="text-center">
+    <h4>Verify Serial Number and Current Status</h4>
+    <form id="verifyform" asp-action="Index" asp-controller="Verify" method="post">
+        <input type="text" name="SN" value="@Model.SN" placeholder="Number" />
+        <input type="text" name="Status" value="@Model.Status" placeholder="Status"/>
+        <button type="button" value="Verify" onclick="OnVerifyClick()">Verify</button>
+    </form>
+    <div id="verifymsg"></div>
+</div>

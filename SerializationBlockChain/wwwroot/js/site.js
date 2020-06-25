@@ -3,12 +3,21 @@
 
 // Write your JavaScript code.
 
-function OnNumberClick(number) {
-    //$.ajax({
-    //    url: "Home/Status/" + number,
-    //    succes: function (result) {
-
-    //    }
-    //});
+function OnVerifyClick() {
+    var data = $("#verifyform").serialize();
+    $.ajax({
+        url: "Verify",
+        method: "POST",
+        data: data,
+        success: function (result) {
+            $("#verifymsg").html(result);
+        },
+        failure: function (response) {
+            alert(response);
+        },
+        error: function (response) {
+            alert(response);
+        }  
+    });
     //window.location = "Customer/Details/" + id;
 }

@@ -4,11 +4,23 @@
 
 @model SerializationBlockChain.Models.SNView;
 
-<div class="text-center">
-    <h1 class="display-4">@Model.SN</h1>
-    <h3 class="display-4">Add Status</h3>
-    <form asp-action="Status" asp-controller="Home" method="post">
-        <input type="text" name="Status" value="@Model.Status" />
-        <button type="submit" value="Submit">Submit</button>
-    </form>
-</div>
+    <div class="text-center">
+        <h1>@Model.SN</h1>
+        <br />
+        <h4>Add New Status</h4>
+        <form asp-action="Status" asp-route-id="@Model.SN" asp-controller="Home" method="post">
+            <input type="text" name="Status" value="@Model.Status" />
+            <button type="submit" value="Submit">Add Status</button>
+        </form>
+        @if (Model.lstStatus != null)
+        {
+            <br />
+            <br />
+            <h4>Status</h4>
+            @foreach (var status in Model.lstStatus)
+            {
+                <div>@status</div>
+                @*<a class="nav-link text-dark" asp-route-id="@status" asp-controller="Home" asp-action="Status">@status</a>*@
+            }
+        }
+    </div>

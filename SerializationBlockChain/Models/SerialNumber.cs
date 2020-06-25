@@ -22,11 +22,6 @@ namespace SerializationBlockChain.Models
             BlockChain = new List<Block> { CreateGenesisBlock(SN) };
         }
 
-        public void CreateSerialNumber(string SN)
-        {
-            BlockChain = new List<Block> { CreateGenesisBlock(SN) };
-        }
-
         public bool IsValidChain()
         {
             for (int i = 1; i < BlockChain.Count; i++)
@@ -43,7 +38,7 @@ namespace SerializationBlockChain.Models
 
         private Block CreateGenesisBlock(string SN)
         {
-            return new Block(SN, "Download", "0");
+            return new Block(SN, "Created", "0");
         }
 
     }

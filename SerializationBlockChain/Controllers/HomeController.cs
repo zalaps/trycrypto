@@ -21,7 +21,13 @@ namespace SerializationBlockChain.Controllers
 
         public IActionResult Index()
         {
-            return View(new SNView());
+            SNView snView = new SNView();
+            List<SerialNumber> lst =  _serialnumberRepository.GetSerialNumbers();
+            if(lst != null && lst.Count > 0)
+            {
+                snView.lstSN = lst.Select(sn => sn.Serialnumber).ToList();
+            }
+            return View(snView);
         }
 
         [HttpPost]
@@ -37,24 +43,62 @@ namespace SerializationBlockChain.Controllers
         {
             SNView snView = new SNView();
             snView.SN = id;
+            SerialNumber Serialnumber = _serialnumberRepository.GetSerialNumber(id);
+            if (Serialnumber != null)
+            {
+                snView.lstStatus = Serialnumber.BlockChain.Select(sn => sn.Status).ToList();
+                snView.SerialNumber = Serialnumber;
+            }
             return View(snView);
         }
 
         [HttpPost]
-        public IActionResult Status(SNView snView)
+        [Route("/Home/Status/{id}")]
+        public IActionResult Status(SNView snView,string id)
         {
-            return View();
+            SerialNumber Serialnumber = _serialnumberRepository.GetSerialNumber(id);
+            if (Serialnumber != null)
+            {
+                string pHash = Serialnumber.BlockChain[Serialnumber.BlockChain.Count - 1].Hash;
+               _serialnumberRepository.AddBlock(id, new Block(id, snView.Status, pHash));
+            }
+            return RedirectToAction("Status",new { id = id});
         }
 
         public IActionResult Verify()
         {
-            return View();
+            return View(new SNView());
         }
 
         [HttpPost]
-        public IActionResult AddSerialnumber(SNView snView)
+        public string Verify(SNView snView)
         {
-            return View(snView);
+            string MSG = "";
+            string color = "red";
+            SerialNumber Serialnumber = _serialnumberRepository.GetSerialNumber(snView.SN);
+            if(Serialnumber != null)
+            {
+                if(Serialnumber.IsValidChain())
+                {
+                    string strStatus = Serialnumber.BlockChain[Serialnumber.BlockChain.Count - 1].Status;
+                    if (strStatus.ToLower() == snView.Status.ToLower())
+                    {
+                        color = "green";
+                        MSG = "Yuppppeee.... Everything is fine.";
+                    }
+                    else
+                    {
+                        color = "blue";
+                        MSG = "Serial number data unchanged but Current Status is '<b>" + strStatus + "</b>'";
+                    }
+                }
+                else
+                {
+                    MSG = "<b>Serial number data changed by another person.<b/>";
+                }
+            }
+            else { MSG = "Serial Number '<b>" + snView.SN + "</b>' is not found in database."; }
+            return "<div style='color:"+color+";'>"+MSG+"</div>";
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
